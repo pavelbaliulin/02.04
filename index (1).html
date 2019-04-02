@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello server</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+
+    <div id="m">
+
+    </div>
+
+    <div>
+        <textarea name="" cols="30" rows="10" id="t"></textarea>
+        <button id="s">send</button>
+    </div>
+</body>
+
+<script>
+    let NAME = ''
+    let flag = true;
+
+    function rejoin() {
+        NAME = prompt("name ?");
+        fetch(`http://localhost:3000/join?name=${NAME}`).then((res) => {
+            if (res.status === 200) {
+                getMessage();
+            } else {
+                rejoin();
+            }
+        }).catch(() => rejoin());
+    }
+    rejoin();
+
+    function getMessage() {
+        fetch(`http://localhost:3000/connect?name=${NAME}`).then((res) => {
+            return res.json();
+        }).then(data => {
+            m.innerHTML += `<div>${data.body}</div>`;
+            getMessage();
+        });
+    }
+
+    s.onclick = function() {
+        fetch(`http://localhost:3000/message?name=${NAME}`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: t.value
+            })
+        });
+        t.value = '';
+    }
+</script>
+
+</html>
