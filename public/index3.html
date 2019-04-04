@@ -1,0 +1,57 @@
+let NAME = '' let flag = true; function rejoin() { NAME = prompt("name ?");
+fetch(`http://localhost:3000/join?name=${NAME}`).then((res) => { if (res.status
+=== 200) { getMessage(); } else { rejoin(); } }).catch(() => rejoin()); }
+rejoin(); function getMessage() {
+fetch(`http://localhost:3000/connect?name=${NAME}`).then((res) => { return
+res.json(); }).then(data => { m.innerHTML += `
+<div>${data.body}</div>
+`; getMessage(); }); } s.onclick = function() {
+fetch(`http://localhost:3000/message?name=${NAME}`, { method: "POST", headers: {
+'Content-Type': 'application/json' }, body: JSON.stringify({ message: t.value })
+}); t.value = ''; } let NAME = '' let flag = true; function rejoin() { NAME =
+prompt("name ?"); fetch(`http://localhost:3000/join?name=${NAME}`).then((res) =>
+{ if (res.status === 200) { getMessage(); } else { rejoin(); } }).catch(() =>
+rejoin()); } rejoin(); function getMessage() {
+fetch(`http://localhost:3000/connect?name=${NAME}`).then((res) => { return
+res.json(); }).then(data => { m.innerHTML += `
+<div>${data.body}</div>
+`; getMessage(); }); } s.onclick = function() {
+fetch(`http://localhost:3000/message?name=${NAME}`, { method: "POST", headers: {
+'Content-Type': 'application/json' }, body: JSON.stringify({ message: t.value })
+}); t.value = ''; }
+let NAME = ''
+let flag = true;
+
+function rejoin() {
+		NAME = prompt("name ?");
+		fetch(`http://localhost:3000/join?name=${NAME}`).then((res) => {
+				if (res.status === 200) {
+						getMessage();
+				} else {
+						rejoin();
+				}
+		}).catch(() => rejoin());
+}
+rejoin();
+
+function getMessage() {
+		fetch(`http://localhost:3000/connect?name=${NAME}`).then((res) => {
+				return res.json();
+		}).then(data => {
+				m.innerHTML += `<div>${data.body}</div>`;
+				getMessage();
+		});
+}
+
+s.onclick = function() {
+		fetch(`http://localhost:3000/message?name=${NAME}`, {
+				method: "POST",
+				headers: {
+						'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+						message: t.value
+				})
+		});
+		t.value = '';
+}
